@@ -51,6 +51,7 @@
   [rows]="1"
   [totalRecords]="maxPage"
   [showCurrentPageReport]="true"
-  currentPageReportTemplate="Page {currentPage}/{totalPages}"
+  [pageLinkSize]="3"
+  currentPageReportTemplate=""
   (onPageChange)="updatePage($event)"
 ></p-paginator>
