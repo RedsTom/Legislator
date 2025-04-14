@@ -1,0 +1,33 @@
+import { Routes } from '@angular/router';
+import {MainLayout} from './layouts/main/main.layout';
+import {HomePage} from './pages/home/home.page';
+import {LivePage} from './pages/live/live.page';
+import {ReportsPage} from './pages/reports/reports.page';
+
+export const routes: Routes = [
+  {
+    path: '',
+    component: MainLayout,
+    children: [
+      {
+        path: '',
+        title: 'Accueil',
+        component: HomePage,
+      },
+      {
+        path: 'live',
+        title: 'En direct',
+        component: LivePage
+      },
+      {
+        path: 'reports',
+        title: 'Rapports',
+        component: ReportsPage
+      }
+    ]
+  },
+  {
+    path: '**',
+    redirectTo: 'home',
+  }
+];

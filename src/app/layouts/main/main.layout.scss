@@ -1,0 +1,67 @@
+#main-layout {
+  display: grid;
+  grid-template-rows: 1fr auto;
+
+  width: 100vw;
+  height: 100vh;
+
+  max-width: 100vw;
+  max-height: 100vh;
+
+  overflow: hidden;
+}
+
+#app-content {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: 0 1fr;
+
+  padding: 1rem;
+
+  overflow: auto;
+}
+
+#navbar {
+  background-color: var(--p-surface-200);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--p-surface-800);
+  }
+  box-shadow: var(--p-button-raised-shadow);
+
+  width: 100%;
+
+  padding: .5rem;
+
+  display: grid;
+  gap: .25rem;
+  grid-template-columns: repeat(5, minmax(50px, 1fr));
+  align-items: center;
+}
+
+::ng-deep #navbar span[role=group] {
+  width: 100%;
+}
+
+p-button, ::ng-deep .nav-btn {
+  width: 100%;
+
+  padding-left: 0;
+  padding-right: 0;
+
+  .p-button-label {
+    width: 100%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-size: .75rem;
+  }
+
+  .p-button-icon {
+    font-size: 1.25rem;
+  }
+}

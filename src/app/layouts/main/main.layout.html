@@ -1,0 +1,23 @@
+<p-footer id="main-layout">
+  <div id="app-content">
+    <router-outlet></router-outlet>
+  </div>
+
+  <div id="navbar">
+    @for (tab of sortedTabs; track tab.index) {
+      @let active = isActiveRoute(tab.routerLink);
+      <p-button
+        [routerLink]="tab.routerLink"
+        [label]="tab.label"
+        [icon]="tab.icon"
+        iconPos="top"
+
+        [text]="!active"
+        [severity]="active ? 'primary' : 'contrast'"
+        size="small"
+
+        styleClass="nav-btn"
+      />
+    }
+  </div>
+</p-footer>
