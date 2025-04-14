@@ -23,7 +23,7 @@ const LegalAura = definePreset(Aura, {
       800: '{indigo.800}',
       900: '{indigo.900}',
       950: '{indigo.950}',
-    }
+    },
   }
 });
 
@@ -34,6 +34,9 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({
       theme: {
         preset: LegalAura,
+        options: {
+          darkModeSelector: false
+        }
       },
       ripple: true,
     }),

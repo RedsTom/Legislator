@@ -28,9 +28,6 @@
 #navbar {
   background-color: var(--p-surface-200);
 
-  @media (prefers-color-scheme: dark) {
-    background-color: var(--p-surface-800);
-  }
   box-shadow: var(--p-button-raised-shadow);
 
   width: 100%;
