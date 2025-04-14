@@ -14,7 +14,5 @@ export function assembleeIntereptor(req: HttpRequest<unknown>, next: HttpHandler
     url: newUrl,
   });
 
-  console.log(newRequest.urlWithParams)
-
   return next(newRequest);
 }

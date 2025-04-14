@@ -1,3 +1,10 @@
+export interface ReportSummaryList {
+  page: number;
+  maxPage: number;
+
+  reports: ReportSummary[];
+}
+
 export interface ReportSummary {
   title: string;
   pageLink: string;

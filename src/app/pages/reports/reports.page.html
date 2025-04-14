@@ -2,44 +2,47 @@
   <h1>Rapports</h1>
 </p-header>
 
+@let reports = reports$ | async;
 <div id="content">
-  @let reports = reports$ | async;
-  @defer (when reports) {
-    @for (reportGroup of (reports ?? [] | groupBy: groupByDate).entries(); track reportGroup[0]) {
-      <h2>{{ reportGroup[0] }}</h2>
-      @for (report of reportGroup[1]; track report.pageLink) {
-        <p-card
-          [header]="report.title"
-          [styleClass]="'card'"
-          [style]="{ width: '100%' }"
-        >
-          @for (order of report.orders; track order) {
-            <p>{{ order }}</p>
-          }
-          <p-button
-            label="Voir le rapport"
-            icon="pi pi-arrow-right"
-            iconPos="right"
-            [routerLink]="report.pageLink"
-            styleClass="p-button-outlined"
-          />
-        </p-card>
+  @if (!loading$()) {
+    <div id="loaded">
+      @for (reportGroup of (reports?.reports ?? [] | groupBy: groupByDate).entries(); track reportGroup[0]) {
+        <h2>{{ reportGroup[0] }}</h2>
+        @for (report of reportGroup[1]; track report.pageLink) {
+          <p-card
+            [header]="report.title"
+            [styleClass]="'card'"
+            [style]="{ width: '100%' }"
+          >
+            @for (order of report.orders; track $index) {
+              @if (order.includes("Suspension de séance")) {
+                <p-divider/>
+              } @else {
+                <p>{{ order }}</p>
+              }
+            }
+            <p-button
+              label="Voir le rapport"
+              icon="pi pi-arrow-right"
+              iconPos="right"
+              [routerLink]="report.pageLink"
+              styleClass="p-button-outlined"
+            />
+          </p-card>
+        }
       }
-    }
-  } @placeholder {
+    </div>
+  } @else {
     <div id="loading">
       <p-progress-spinner/>
     </div>
-  } @loading {
-    <div id="loading">
-      <p-progress-spinner/>
-    </div>
-  } @error {
-    <p>Erreur</p>
-  }
-
-  @defer (when reports) {
-  } @loading {
-    <p>Chargement...</p>
   }
 </div>
+
+<p-paginator
+  [rows]="1"
+  [totalRecords]="maxPage"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Page {currentPage}/{totalPages}"
+  (onPageChange)="updatePage($event)"
+></p-paginator>

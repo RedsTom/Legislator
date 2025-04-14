@@ -1,14 +1,15 @@
 import {AsyncPipe} from '@angular/common';
-import {Component} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {SharedModule} from 'primeng/api';
 import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
-import {Paginator} from 'primeng/paginator';
+import {Divider} from 'primeng/divider';
+import {Paginator, PaginatorState} from 'primeng/paginator';
 import {ProgressSpinner} from 'primeng/progressspinner';
-import {Observable, of} from 'rxjs';
-import {ReportSummary} from '../../models/reports.model';
+import {BehaviorSubject, Observable, of, switchMap, tap} from 'rxjs';
+import {ReportSummary, ReportSummaryList} from '../../models/reports.model';
 import {GroupByPipe} from '../../pipes/group-by.pipe';
 import {ReportListService} from '../../services/report-list.service';
 
@@ -23,15 +24,19 @@ import {ReportListService} from '../../services/report-list.service';
     ProgressSpinner,
     Card,
     RouterLink,
-    GroupByPipe
+    GroupByPipe,
+    Divider
   ],
   templateUrl: './reports.page.html',
   styleUrl: './reports.page.scss'
 })
-export class ReportsPage {
+export class ReportsPage implements OnInit {
 
-  protected reports$: Observable<ReportSummary[]> = of();
-  protected page = 0;
+  private pageSubject = new BehaviorSubject<number>(0);
+
+  protected loading$ = signal(true);
+  protected reports$: Observable<ReportSummaryList> = of();
+  maxPage: number = 1;
 
   constructor(
     private reportsListService: ReportListService
@@ -39,14 +44,19 @@ export class ReportsPage {
   }
 
   ngOnInit() {
-    this.reports$ = this.reportsListService.list(this.page + 1)
-  }
-
-  toJson(obj: any): string {
-    return JSON.stringify(obj, null, 2);
+    this.reports$ = this.pageSubject.pipe(
+      tap(() => this.loading$.set(true)),
+      switchMap(page => this.reportsListService.list(page + 1)),
+      tap(reports => this.maxPage = reports.maxPage),
+      tap(() => this.loading$.set(false)),
+    )
   }
 
   groupByDate(report: ReportSummary): [string, ReportSummary] {
     return [report.date.toDateString(), report];
+  }
+
+  updatePage(event: PaginatorState) {
+    this.pageSubject.next(event.page ?? 0);
   }
 }

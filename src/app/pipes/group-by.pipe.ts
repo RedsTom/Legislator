@@ -20,7 +20,6 @@ export class GroupByPipe implements PipeTransform {
       map.get(key)?.push(value);
     }
 
-    console.log(map);
     return map;
   }
 
