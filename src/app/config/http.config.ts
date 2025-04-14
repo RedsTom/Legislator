@@ -8,11 +8,13 @@ export function assembleeIntereptor(req: HttpRequest<unknown>, next: HttpHandler
     return next(req);
   }
 
-  const newUrl = AN_BASE_URL + req.url.substring(1);
+  const newUrl = AN_BASE_URL + req.urlWithParams.substring(1);
 
   const newRequest = req.clone({
     url: newUrl,
   });
+
+  console.log(newRequest.urlWithParams)
 
   return next(newRequest);
 }
