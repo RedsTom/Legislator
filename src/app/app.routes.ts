@@ -4,31 +4,38 @@ import {CalendarPage} from './pages/calendar/calendar.page';
 import {HomePage} from './pages/home/home.page';
 import {LivePage} from './pages/live/live.page';
 import {MfpPage} from './pages/mfp/mfp.page';
+import {ReportPage} from './pages/reports/entry/report.page';
 import {ReportsPage} from './pages/reports/list/reports.page';
 
 export const routes: Routes = [
   {
     path: '',
     component: MainLayout,
+    title: 'Legislator',
     children: [
       {
         path: '',
-        title: 'Accueil',
+        title: 'Legislator | Accueil',
         component: HomePage,
       },
       {
         path: 'live',
-        title: 'En direct',
+        title: 'Legislator | En direct',
         component: LivePage
       },
       {
         path: 'reports',
-        title: 'Rapports',
+        title: 'Legislator | Rapports',
         component: ReportsPage
       },
       {
+        path: 'reports/:date',
+        title: 'Legislator | Rapport',
+        component: ReportPage
+      },
+      {
         path: 'mfp',
-        title: 'Députés',
+        title: 'Legislator | Députés',
         component: MfpPage
       },
       {

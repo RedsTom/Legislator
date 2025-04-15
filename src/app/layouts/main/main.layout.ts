@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {NgxTeleportModule} from 'ngx-teleport';
-import {MenuItem, SharedModule} from 'primeng/api';
+import {SharedModule} from 'primeng/api';
 import {Button} from 'primeng/button';
 
 @Component({
@@ -17,7 +17,7 @@ import {Button} from 'primeng/button';
   templateUrl: './main.layout.html',
   styleUrl: './main.layout.scss'
 })
-export class MainLayout implements OnInit {
+export class MainLayout {
   protected tabs = [
     {
       index: 0,
@@ -51,12 +51,7 @@ export class MainLayout implements OnInit {
     }
   ];
 
-  protected activeItem!: MenuItem;
-
   constructor(private router: Router) {
-  }
-
-  ngOnInit() {
   }
 
   get sortedTabs() {
@@ -76,6 +71,6 @@ export class MainLayout implements OnInit {
       return false;
     }
 
-    return path.startsWith(this.router.url);
+    return this.router.url.startsWith(path);
   }
 }

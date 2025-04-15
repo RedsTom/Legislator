@@ -63,12 +63,19 @@ p-button, ::ng-deep .nav-btn {
 }
 
 p-header {
+  height: 4rem;
+
   padding: 1rem;
   background: var(--p-surface-100);
   box-shadow: var(--p-button-raised-shadow);
 
   z-index: 200;
 
+  display: flex;
+  gap: 1rem;
+
+  justify-content: start;
+  align-items: center;
 }
 
 ::ng-deep p-header * {
@@ -77,4 +84,9 @@ p-header {
 
   padding: 0;
   margin: 0;
+
+  &:is(h1) {
+    height: 100%;
+    vertical-align: bottom;
+  }
 }

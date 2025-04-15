@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import * as chrono from "chrono-node";
-import {map, Observable} from 'rxjs';
+import {map, Observable, of} from 'rxjs';
 import {ReportSummary, ReportSummaryList} from '../models/reports.model';
 
 const parser = new DOMParser();
@@ -10,11 +10,17 @@ const parser = new DOMParser();
   providedIn: 'root'
 })
 export class ReportListService {
+  private cache: Map<number, ReportSummaryList> = new Map();
+
   constructor(private http: HttpClient) {
   }
 
   public list(page: number): Observable<ReportSummaryList> {
-    return this.http.get("@/dyn/17/comptes-rendus/seance", {
+    if(this.cache.has(page)) {
+      return of(this.cache.get(page)!);
+    }
+
+    const reportSummaryList = this.http.get("@/dyn/17/comptes-rendus/seance", {
       params: {
         page: page,
         limit: 5
@@ -23,6 +29,12 @@ export class ReportListService {
     }).pipe(
       map((reports) => this.processReports(reports, page))
     );
+
+    reportSummaryList.subscribe((reports) => {
+      this.cache.set(page, reports);
+    });
+
+    return reportSummaryList;
   }
 
   private processReports(reportsHtml: string, page: number): ReportSummaryList {
@@ -31,7 +43,6 @@ export class ReportListService {
     const reports: ReportSummary[] = [];
     let pageButtons = document.querySelectorAll(".an-pagination .an-pagination--item:not(.next):not(.prev)");
     let maxPage = Number(pageButtons[pageButtons.length - 1]?.textContent ?? "10");
-    console.log("Max Page", maxPage);
 
     let days = document.querySelector("ul.crs-index-days");
     days?.querySelectorAll("& > li").forEach((day) => {

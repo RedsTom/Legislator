@@ -7,7 +7,7 @@
   @if (!loading$()) {
     <div id="loaded">
       @for (reportGroup of (reports?.reports ?? [] | groupBy: groupByDate).entries(); track reportGroup[0]) {
-        <h2 id="day">{{ reportGroup[0] }}</h2>
+        <h2 id="day">{{ formatReadableDate(reportGroup[1][0].date) }}</h2>
         <div id="seances">
           @for (report of reportGroup[1]; track report.pageLink) {
             <p-card
@@ -30,7 +30,14 @@
                   }
 
                   <div class="seance-bottom">
-                    <p-button label="Lire" icon="pi pi-book" outlined/>
+                    <p-button
+                      label="Lire"
+                      icon="pi pi-book"
+                      outlined
+
+                      [routerLink]="['/reports', formatUrlDate(report.date)]"
+                      [queryParams]="{ section: order }"
+                    />
                     <p-divider/>
                   </div>
                 </ng-template>

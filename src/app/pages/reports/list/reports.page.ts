@@ -1,6 +1,7 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, OnInit, signal, TemplateRef, ViewChild} from '@angular/core';
+import {AfterContentInit, Component, signal, TemplateRef, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 import dayjs from 'dayjs';
 import {NgxTeleportModule} from 'ngx-teleport';
 import {SharedModule} from 'primeng/api';
@@ -30,11 +31,12 @@ import 'dayjs/locale/fr.js';
     Divider,
     Timeline,
     NgxTeleportModule,
+    RouterLink,
   ],
   templateUrl: './reports.page.html',
   styleUrl: './reports.page.scss'
 })
-export class ReportsPage implements OnInit {
+export class ReportsPage implements AfterContentInit {
   @ViewChild('header') public header: TemplateRef<any> | undefined;
 
   private pageSubject = new BehaviorSubject<number>(0);
@@ -48,7 +50,7 @@ export class ReportsPage implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngAfterContentInit() {
     this.reports$ = this.pageSubject.pipe(
       tap(() => this.loading$.set(true)),
       switchMap(page => this.reportsListService.list(page + 1)),
@@ -58,13 +60,19 @@ export class ReportsPage implements OnInit {
   }
 
   groupByDate(report: ReportSummary): [string, ReportSummary] {
-    let date = dayjs(report.date).locale('fr').format('dddd D MMMM YYYY');
-    date = date[0].toUpperCase() + date.slice(1);
-
-    return [date, report];
+    return [report.date.toString(), report];
   }
 
   updatePage(event: PaginatorState) {
     this.pageSubject.next(event.page ?? 0);
+  }
+
+  formatReadableDate(datetime: Date) {
+    let date = dayjs(datetime).locale('fr').format('dddd D MMMM YYYY');
+    return date[0].toUpperCase() + date.slice(1);
+  }
+
+  formatUrlDate(datetime: Date) {
+    return dayjs(datetime).format('YYYY-MM-DD');
   }
 }
