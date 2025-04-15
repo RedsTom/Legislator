@@ -20,6 +20,7 @@
     "@angular/router": "^19.2.0",
     "@primeng/themes": "^19.0.10",
     "chrono-node": "^2.8.0",
+    "dayjs": "^1.11.13",
     "ngx-teleport": "^0.13.12",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.10",

@@ -1,6 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, OnInit, signal, TemplateRef, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import dayjs from 'dayjs';
 import {NgxTeleportModule} from 'ngx-teleport';
 import {SharedModule} from 'primeng/api';
 import {Button} from 'primeng/button';
@@ -13,6 +14,7 @@ import {BehaviorSubject, Observable, of, switchMap, tap} from 'rxjs';
 import {ReportSummary, ReportSummaryList} from '../../../models/reports.model';
 import {GroupByPipe} from '../../../pipes/group-by.pipe';
 import {ReportListService} from '../../../services/report-list.service';
+import 'dayjs/locale/fr.js';
 
 @Component({
   selector: 'app-reports.page',
@@ -56,7 +58,10 @@ export class ReportsPage implements OnInit {
   }
 
   groupByDate(report: ReportSummary): [string, ReportSummary] {
-    return [report.date.toDateString(), report];
+    let date = dayjs(report.date).locale('fr').format('dddd D MMMM YYYY');
+    date = date[0].toUpperCase() + date.slice(1);
+
+    return [date, report];
   }
 
   updatePage(event: PaginatorState) {
