@@ -1,9 +1,13 @@
-<p-footer id="main-layout">
+<div id="main-layout">
+  <p-header>
+    <ngx-teleport-outlet name="header"></ngx-teleport-outlet>
+  </p-header>
+
   <div id="app-content">
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
   </div>
 
-  <div id="navbar">
+  <p-footer id="navbar">
     @for (tab of sortedTabs; track tab.index) {
       @let active = isActiveRoute(tab.routerLink);
       <p-button
@@ -19,5 +23,5 @@
         styleClass="nav-btn"
       />
     }
-  </div>
-</p-footer>
+  </p-footer>
+</div>

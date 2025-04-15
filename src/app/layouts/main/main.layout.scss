@@ -1,6 +1,6 @@
 #main-layout {
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: auto 1fr auto;
 
   width: 100vw;
   height: 100vh;
@@ -18,11 +18,8 @@
   display: grid;
   grid-template-columns: 0 1fr;
 
-  padding: 1rem;
-
-  overflow: auto;
-
   position: relative;
+  overflow: auto;
 }
 
 #navbar {
@@ -63,4 +60,12 @@ p-button, ::ng-deep .nav-btn {
   .p-button-icon {
     font-size: 1.25rem;
   }
+}
+
+p-header {
+  padding: 1rem;
+  background: var(--p-surface-100);
+  box-shadow: var(--p-button-raised-shadow);
+
+  z-index: 200;
 }

@@ -1,6 +1,7 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit, signal, TemplateRef, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {NgxTeleportModule} from 'ngx-teleport';
 import {SharedModule} from 'primeng/api';
 import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
@@ -9,9 +10,9 @@ import {Paginator, PaginatorState} from 'primeng/paginator';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {Timeline} from 'primeng/timeline';
 import {BehaviorSubject, Observable, of, switchMap, tap} from 'rxjs';
-import {ReportSummary, ReportSummaryList} from '../../models/reports.model';
-import {GroupByPipe} from '../../pipes/group-by.pipe';
-import {ReportListService} from '../../services/report-list.service';
+import {ReportSummary, ReportSummaryList} from '../../../models/reports.model';
+import {GroupByPipe} from '../../../pipes/group-by.pipe';
+import {ReportListService} from '../../../services/report-list.service';
 
 @Component({
   selector: 'app-reports.page',
@@ -25,18 +26,20 @@ import {ReportListService} from '../../services/report-list.service';
     Card,
     GroupByPipe,
     Divider,
-    Timeline
+    Timeline,
+    NgxTeleportModule,
   ],
   templateUrl: './reports.page.html',
   styleUrl: './reports.page.scss'
 })
 export class ReportsPage implements OnInit {
+  @ViewChild('header') public header: TemplateRef<any> | undefined;
 
   private pageSubject = new BehaviorSubject<number>(0);
 
   protected loading$ = signal(true);
   protected reports$: Observable<ReportSummaryList> = of();
-  maxPage: number = 1;
+  protected maxPage: number = 1;
 
   constructor(
     private reportsListService: ReportListService

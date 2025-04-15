@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
+import {NgxTeleportModule} from 'ngx-teleport';
 import {MenuItem, SharedModule} from 'primeng/api';
 import {Button} from 'primeng/button';
 
@@ -10,7 +11,8 @@ import {Button} from 'primeng/button';
     RouterOutlet,
     Button,
     RouterLink,
-    SharedModule
+    SharedModule,
+    NgxTeleportModule
   ],
   templateUrl: './main.layout.html',
   styleUrl: './main.layout.scss'
@@ -51,6 +53,9 @@ export class MainLayout implements OnInit {
 
   protected activeItem!: MenuItem;
 
+  @ViewChild('headerTeleport', { read: ViewContainerRef }) headerTeleport!: ViewContainerRef;
+  private headerTemplate: TemplateRef<any> | undefined;
+
   constructor(private router: Router) {
   }
 
@@ -76,4 +81,32 @@ export class MainLayout implements OnInit {
 
     return path.startsWith(this.router.url);
   }
+
+  onActivate(componentRef: any) {
+    console.log("Activated component", componentRef);
+    if(componentRef.header) {
+      console.log("Header template found", componentRef.header);
+
+      this.clearHeaderTeleport();
+      this.headerTemplate = componentRef.header;
+      this.attachHeaderTeleport();
+    } else {
+      console.log("No header template found");
+
+      this.clearHeaderTeleport();
+    }
+  }
+
+  private attachHeaderTeleport() {
+    if(this.headerTeleport && this.headerTemplate) {
+      this.headerTeleport.createEmbeddedView(this.headerTemplate);
+    }
+  }
+
+  private clearHeaderTeleport() {
+    if(this.headerTeleport) {
+      this.headerTeleport.clear();
+    }
+  }
+
 }
