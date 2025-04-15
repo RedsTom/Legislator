@@ -39,6 +39,10 @@ export class ReportListService {
 
   private processReports(reportsHtml: string, page: number): ReportSummaryList {
     const document = parser.parseFromString(reportsHtml, "text/html");
+    const base = document.createElement("base");
+    base.href = "https://www.assemblee-nationale.fr/"
+
+    document.head.appendChild(base)
 
     const reports: ReportSummary[] = [];
     let pageButtons = document.querySelectorAll(".an-pagination .an-pagination--item:not(.next):not(.prev)");
