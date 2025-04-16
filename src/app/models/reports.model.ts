@@ -17,8 +17,8 @@ export enum SpeakerRole { none, president }
 
 export interface Speaker {
   name: String;
-  id: number;
   role: SpeakerRole;
+  title?: string;
 }
 
 export interface Speech {
@@ -27,6 +27,10 @@ export interface Speech {
 }
 
 export interface Debate {
-  topic: String;
+  name: string;
   speeches: Speech[];
+  subDebates?: Debate[];
+  level: number;
+  parent?: Debate;
+  order: string;
 }
