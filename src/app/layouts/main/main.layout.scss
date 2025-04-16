@@ -63,6 +63,8 @@ p-button, ::ng-deep .nav-btn {
 }
 
 p-header {
+  max-width: 100vw;
+
   height: 4rem;
 
   padding: 1rem;
@@ -76,6 +78,10 @@ p-header {
 
   justify-content: start;
   align-items: center;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 ::ng-deep p-header * {
@@ -88,5 +94,10 @@ p-header {
   &:is(h1) {
     height: 100%;
     vertical-align: bottom;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
   }
 }
