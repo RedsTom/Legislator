@@ -44,6 +44,8 @@ export class ReportsPage implements AfterContentInit {
   protected reports$: Observable<ReportSummaryList> = of();
   protected maxPage: number = 1;
 
+  private loadingButtons: Map<string, boolean> = new Map();
+
   constructor(
     private reportsListService: ReportListService,
     private router: Router
@@ -81,11 +83,17 @@ export class ReportsPage implements AfterContentInit {
   }
 
   async navigateToReport(report: ReportSummary, order: string) {
+    this.loadingButtons.set(report.pageLink + "$" + order, true);
     const seanceId = await lastValueFrom(this.getSeanceId(report));
+    this.loadingButtons.set(report.pageLink + "$" + order, false);
     await this.router.navigate(['/reports', this.formatUrlDate(report.date), seanceId], {
       queryParams: {
         section: order,
       }
     })
+  }
+
+  isLoading(report: ReportSummary, order: any) {
+    return !!this.loadingButtons.get(report.pageLink + "$" + order);
   }
 }

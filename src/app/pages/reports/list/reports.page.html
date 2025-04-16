@@ -36,6 +36,8 @@
                       icon="pi pi-book"
                       outlined
 
+                      [loading]="isLoading(report, order)"
+
                       (onClick)="navigateToReport(report, order)"
                     />
                     <p-divider/>

@@ -10,14 +10,15 @@ const parser = new DOMParser();
   providedIn: 'root'
 })
 export class ReportListService {
-  private cache: Map<number, ReportSummaryList> = new Map();
+  private pageCache: Map<number, ReportSummaryList> = new Map();
+  private seanceIdCache: Map<string, string> = new Map();
 
   constructor(private http: HttpClient) {
   }
 
   public list(page: number): Observable<ReportSummaryList> {
-    if (this.cache.has(page)) {
-      return of(this.cache.get(page)!);
+    if (this.pageCache.has(page)) {
+      return of(this.pageCache.get(page)!);
     }
 
     const reportSummaryList = this.http.get("@/dyn/17/comptes-rendus/seance", {
@@ -31,7 +32,7 @@ export class ReportListService {
     );
 
     reportSummaryList.subscribe((reports) => {
-      this.cache.set(page, reports);
+      this.pageCache.set(page, reports);
     });
 
     return reportSummaryList;
@@ -86,7 +87,11 @@ export class ReportListService {
   }
 
   seanceId(seance: ReportSummary): Observable<string> {
-    return this.http.get(`~${seance.pageLink}`, {
+    if (this.seanceIdCache.has(seance.pageLink)) {
+      return of(this.seanceIdCache.get(seance.pageLink)!);
+    }
+
+    const seanceId = this.http.get(`~${seance.pageLink}`, {
       responseType: "text"
     }).pipe(
       map((html) => this.getXmlLink(html)),
@@ -95,6 +100,12 @@ export class ReportListService {
       map((xmlName) => xmlName.split(".")),
       map((xmlNamePieces) => xmlNamePieces.splice(0, xmlNamePieces.length - 1).join(".")),
     );
+
+    seanceId.subscribe((id) => {
+      this.seanceIdCache.set(seance.pageLink, id);
+    });
+
+    return seanceId;
   }
 
   getXmlLink(html: string): string {
