@@ -49,11 +49,11 @@
 
 #seances {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
-p-header {
-  background-color: var(--p-surface-100);
-  padding: 1rem 0;
+.seance {
+  width: 100%;
+  max-width: 24rem;
 }

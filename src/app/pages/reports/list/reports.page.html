@@ -11,10 +11,11 @@
         <div id="seances">
           @for (report of reportGroup[1]; track report.pageLink) {
             <p-card
+              class="seance"
+
               [header]="report.title"
               [subheader]="report.orders[0]"
               [styleClass]="'card'"
-              [style]="{ width: '100%' }"
               [dt]="{
                 background: '{surface.100}'
               }"
