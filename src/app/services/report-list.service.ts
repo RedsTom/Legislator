@@ -16,7 +16,7 @@ export class ReportListService {
   }
 
   public list(page: number): Observable<ReportSummaryList> {
-    if(this.cache.has(page)) {
+    if (this.cache.has(page)) {
       return of(this.cache.get(page)!);
     }
 
@@ -83,5 +83,34 @@ export class ReportListService {
       maxPage: maxPage,
       reports: reports
     };
+  }
+
+  seanceId(seance: ReportSummary): Observable<string> {
+    return this.http.get(`~${seance.pageLink}`, {
+      responseType: "text"
+    }).pipe(
+      map((html) => this.getXmlLink(html)),
+      map(s => s.split("\/")),
+      map((urlPieces) => urlPieces[urlPieces.length - 1]),
+      map((xmlName) => xmlName.split(".")),
+      map((xmlNamePieces) => xmlNamePieces.splice(0, xmlNamePieces.length - 1).join(".")),
+    );
+  }
+
+  getXmlLink(html: string): string {
+    const document = parser.parseFromString(html, "text/html");
+    const base = document.createElement("base");
+    base.href = "https://www.assemblee-nationale.fr/"
+    document.head.appendChild(base)
+
+    const xmlLink = document.querySelector<HTMLAnchorElement>(
+      "ul._vertical > li:nth-child(8) > a:nth-child(1)"
+    );
+
+    if (xmlLink) {
+      return xmlLink.href;
+    } else {
+      throw new Error("XML link not found");
+    }
   }
 }

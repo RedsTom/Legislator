@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {AfterContentInit, Component, signal, TemplateRef, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
 import dayjs from 'dayjs';
 import {NgxTeleportModule} from 'ngx-teleport';
 import {SharedModule} from 'primeng/api';
@@ -11,7 +11,7 @@ import {Divider} from 'primeng/divider';
 import {Paginator, PaginatorState} from 'primeng/paginator';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {Timeline} from 'primeng/timeline';
-import {BehaviorSubject, Observable, of, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, lastValueFrom, Observable, of, switchMap, tap} from 'rxjs';
 import {ReportSummary, ReportSummaryList} from '../../../models/reports.model';
 import {GroupByPipe} from '../../../pipes/group-by.pipe';
 import {ReportListService} from '../../../services/report-list.service';
@@ -31,7 +31,6 @@ import 'dayjs/locale/fr.js';
     Divider,
     Timeline,
     NgxTeleportModule,
-    RouterLink,
   ],
   templateUrl: './reports.page.html',
   styleUrl: './reports.page.scss'
@@ -46,7 +45,8 @@ export class ReportsPage implements AfterContentInit {
   protected maxPage: number = 1;
 
   constructor(
-    private reportsListService: ReportListService
+    private reportsListService: ReportListService,
+    private router: Router
   ) {
   }
 
@@ -74,5 +74,18 @@ export class ReportsPage implements AfterContentInit {
 
   formatUrlDate(datetime: Date) {
     return dayjs(datetime).format('YYYY-MM-DD');
+  }
+
+  getSeanceId(seance: ReportSummary): Observable<string> {
+    return this.reportsListService.seanceId(seance);
+  }
+
+  async navigateToReport(report: ReportSummary, order: string) {
+    const seanceId = await lastValueFrom(this.getSeanceId(report));
+    await this.router.navigate(['/reports', this.formatUrlDate(report.date), seanceId], {
+      queryParams: {
+        section: order,
+      }
+    })
   }
 }

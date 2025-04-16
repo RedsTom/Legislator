@@ -35,8 +35,7 @@
                       icon="pi pi-book"
                       outlined
 
-                      [routerLink]="['/reports', formatUrlDate(report.date)]"
-                      [queryParams]="{ section: order }"
+                      (onClick)="navigateToReport(report, order)"
                     />
                     <p-divider/>
                   </div>

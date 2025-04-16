@@ -29,7 +29,7 @@ export const routes: Routes = [
         component: ReportsPage
       },
       {
-        path: 'reports/:date',
+        path: 'reports/:date/:seanceId',
         title: 'Legislator | Rapport',
         component: ReportPage
       },
