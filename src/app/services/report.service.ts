@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {filter, map, Observable, of, tap} from 'rxjs';
 import {Debate, Speaker, SpeakerRole, Speech} from '../models/reports.model';
+import {parseText} from "../utils/xml.utils";
 
 const parser = new DOMParser();
 
@@ -171,12 +172,12 @@ export class ReportService {
             title: qualite || undefined
           };
 
-          const texte = para.querySelector("texte")?.textContent || "";
+          const texte = para.querySelector("texte")?.getHTML() || "";
 
           if (texte.trim()) {
             speeches.push({
               speaker,
-              text: texte.replace(/\s+/g, ' ').trim()
+              text: parseText(texte.replace(/\s+/g, ' ').trim())
             });
           }
         }

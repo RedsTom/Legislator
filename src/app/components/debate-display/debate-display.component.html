@@ -5,7 +5,7 @@
     <h5 *ngIf="debate.level >= 3">{{ debate.name }}</h5>
     <div class="debate-info">Niveau {{ debate.level }} | Ordre {{ debate.order }}</div>
   </div>
-  
+
   <!-- Discours du débat -->
   <div *ngIf="debate.speeches && debate.speeches.length > 0" class="speeches-container">
     <div *ngFor="let speech of debate.speeches" class="speech" [ngClass]="getSpeakerClass(speech.speaker?.role || 0)">
@@ -13,14 +13,18 @@
         {{ speech.speaker.name }}
         <span *ngIf="speech.speaker.title" class="speaker-title">({{ speech.speaker.title }})</span>
       </div>
-      <div class="speech-text">{{ speech.text }}</div>
+      <div class="speech-text">
+        <markdown
+          [data]="speech.text"
+        />
+      </div>
     </div>
   </div>
-  
+
   <!-- Récursion pour afficher les sous-débats à n'importe quelle profondeur -->
   <div *ngIf="debate.subDebates && debate.subDebates.length > 0" class="sub-debates">
-    <app-debate-display 
-      *ngFor="let subDebate of debate.subDebates" 
+    <app-debate-display
+      *ngFor="let subDebate of debate.subDebates"
       [debate]="subDebate"
     ></app-debate-display>
   </div>
