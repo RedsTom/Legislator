@@ -48,12 +48,7 @@
 }
 
 #seances {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   gap: 1rem;
-}
-
-p-header {
-  background-color: var(--p-surface-100);
-  padding: 1rem 0;
 }
