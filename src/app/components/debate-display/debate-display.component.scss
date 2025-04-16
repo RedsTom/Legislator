@@ -1,0 +1,79 @@
+.debate {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-left: 3px solid #ddd;
+  
+  // Styles spécifiques selon le niveau
+  &[data-level="1"] {
+    margin-left: 0;
+    border-left-color: #9b59b6;
+  }
+  
+  &[data-level="2"] {
+    margin-left: 1.5rem;
+    border-left-color: #3498db;
+  }
+  
+  &[data-level="3"] {
+    margin-left: 2.5rem;
+    border-left-color: #2ecc71;
+  }
+  
+  &[data-level="4"] {
+    margin-left: 3.5rem;
+    border-left-color: #f39c12;
+  }
+  
+  &[data-level="5"] {
+    margin-left: 4.5rem;
+    border-left-color: #e74c3c;
+  }
+}
+
+.debate-header {
+  margin-bottom: 1rem;
+  
+  h3, h4, h5 {
+    margin-bottom: 0.25rem;
+  }
+  
+  .debate-info {
+    font-size: 0.8rem;
+    color: #666;
+  }
+}
+
+.speeches-container {
+  margin-bottom: 1rem;
+}
+
+.speech {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  
+  &.president-speech {
+    background-color: #e8f4ff;
+    border-left: 3px solid #3498db;
+  }
+}
+
+.speaker-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  
+  .speaker-title {
+    font-weight: normal;
+    font-style: italic;
+    color: #666;
+  }
+}
+
+.speech-text {
+  line-height: 1.5;
+}
+
+.sub-debates {
+  margin-top: 1rem;
+}

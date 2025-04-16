@@ -2,7 +2,7 @@
   <p-button
     icon="pi pi-arrow-left"
     text
-    (onClick)="location.back()"
+    routerLink="/reports"
   />
   <h1>
     {{ debate?.name || 'Rapport de séance' }}
@@ -21,7 +21,7 @@
   <div *ngIf="debate" class="report-container">
     <!-- Affichage des discours principaux -->
     <div *ngIf="debate.speeches && debate.speeches.length > 0" class="speeches-container">
-      <h2>Interventions</h2>
+      <h2>Interventions principales</h2>
       <div *ngFor="let speech of debate.speeches" class="speech" [ngClass]="getSpeakerClass(speech.speaker?.role || 0)">
         <div class="speaker-name" *ngIf="speech.speaker">
           {{ speech.speaker.name }}
@@ -31,50 +31,14 @@
       </div>
     </div>
 
-    <!-- Affichage des sous-débats -->
+    <!-- Affichage des sous-débats avec notre composant récursif -->
     <div *ngIf="debate.subDebates && debate.subDebates.length > 0" class="sub-debates-container">
-      <h2>Sous-débats</h2>
+      <h2>Débats et sous-débats</h2>
 
-      <div *ngFor="let subDebate of debate.subDebates" class="sub-debate" [attr.data-level]="subDebate.level">
-        <div class="debate-header">
-          <h3>{{ subDebate.name }}</h3>
-          <div class="debate-info">Niveau {{ subDebate.level }} | Ordre {{ subDebate.order }}</div>
-        </div>
-
-        <!-- Discours du sous-débat -->
-        <div *ngIf="subDebate.speeches && subDebate.speeches.length > 0" class="speeches-container">
-          <div *ngFor="let speech of subDebate.speeches" class="speech" [ngClass]="getSpeakerClass(speech.speaker?.role || 0)">
-            <div class="speaker-name" *ngIf="speech.speaker">
-              {{ speech.speaker.name }}
-              <span *ngIf="speech.speaker.title" class="speaker-title">({{ speech.speaker.title }})</span>
-            </div>
-            <div class="speech-text">{{ speech.text }}</div>
-          </div>
-        </div>
-
-        <!-- Affichage récursif des sous-sous-débats (niveau 2) -->
-        <div *ngIf="subDebate.subDebates && subDebate.subDebates.length > 0" class="sub-sub-debates">
-          <div *ngFor="let subSubDebate of subDebate.subDebates" class="sub-debate" [attr.data-level]="subSubDebate.level">
-            <div class="debate-header">
-              <h4>{{ subSubDebate.name }}</h4>
-              <div class="debate-info">Niveau {{ subSubDebate.level }} | Ordre {{ subSubDebate.order }}</div>
-            </div>
-
-            <!-- Discours du sous-sous-débat -->
-            <div *ngIf="subSubDebate.speeches && subSubDebate.speeches.length > 0" class="speeches-container">
-              <div *ngFor="let speech of subSubDebate.speeches" class="speech" [ngClass]="getSpeakerClass(speech.speaker?.role || 0)">
-                <div class="speaker-name" *ngIf="speech.speaker">
-                  {{ speech.speaker.name }}
-                  <span *ngIf="speech.speaker.title" class="speaker-title">({{ speech.speaker.title }})</span>
-                </div>
-                <div class="speech-text">{{ speech.text }}</div>
-              </div>
-            </div>
-
-            <!-- Note: pour les niveaux supplémentaires, il faudrait idéalement utiliser un composant récursif -->
-          </div>
-        </div>
-      </div>
+      <app-debate-display
+        *ngFor="let subDebate of debate.subDebates"
+        [debate]="subDebate"
+      ></app-debate-display>
     </div>
   </div>
 </div>
