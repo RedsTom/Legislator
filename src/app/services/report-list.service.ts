@@ -115,7 +115,7 @@ export class ReportListService {
     document.head.appendChild(base)
 
     const xmlLink = document.querySelector<HTMLAnchorElement>(
-      "ul._vertical > li:nth-child(8) > a:nth-child(1)"
+      "ul._vertical > li:has(i.an-icons-embed2) a"
     );
 
     if (xmlLink) {

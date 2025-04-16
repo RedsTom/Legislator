@@ -13,20 +13,20 @@ export interface ReportSummary {
   orders: string[];
 }
 
-enum SpeakerRole { none, president}
+export enum SpeakerRole { none, president }
 
-interface Speaker {
+export interface Speaker {
   name: String;
   id: number;
   role: SpeakerRole;
 }
 
-interface Speech {
+export interface Speech {
   speaker?: Speaker;
   text: string;
 }
 
-interface Debate {
+export interface Debate {
   topic: String;
   speeches: Speech[];
 }
