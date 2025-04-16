@@ -66,6 +66,10 @@ export class ReportListService {
         seance.querySelectorAll("ul.crs-index-item-summary > li > a").forEach((
           order,
         ) => {
+          if(order.textContent?.includes("Ordre du jour de la prochaine séance")) {
+            return;
+          }
+
           orders.push(order.textContent ?? "");
         });
 

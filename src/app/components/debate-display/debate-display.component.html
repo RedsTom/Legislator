@@ -1,14 +1,18 @@
-<div class="debate" [attr.data-level]="debate.level">
+<div class="debate" [attr.data-level]="debate.node.level" [attr.data-type]="debate.node.metadata?.type">
   <div class="debate-header">
-    <h3 *ngIf="debate.level === 1">{{ debate.name }}</h3>
-    <h4 *ngIf="debate.level === 2">{{ debate.name }}</h4>
-    <h5 *ngIf="debate.level >= 3">{{ debate.name }}</h5>
-    <div class="debate-info">Niveau {{ debate.level }} | Ordre {{ debate.order }}</div>
+    <h3 *ngIf="debate.node.level === 1">{{ debate.node.name }}</h3>
+    <h4 *ngIf="debate.node.level === 2">{{ debate.node.name }}</h4>
+    <h5 *ngIf="debate.node.level >= 3">{{ debate.node.name }}</h5>
+    <div class="debate-info">
+      <span class="debate-level">Niveau {{ debate.node.level }}</span>
+      <span class="debate-order">Ordre {{ debate.node.order }}</span>
+      <span *ngIf="debate?.node?.metadata?.type" class="debate-type">Type: {{ debate?.node?.metadata?.type }}</span>
+    </div>
   </div>
 
   <!-- Discours du débat -->
   <div *ngIf="debate.speeches && debate.speeches.length > 0" class="speeches-container">
-    <div *ngFor="let speech of debate.speeches" class="speech" [ngClass]="getSpeakerClass(speech.speaker?.role || 0)">
+    <div *ngFor="let speech of debate.speeches" class="speech" [ngClass]="getSpeakerClass(speech.speaker?.role)">
       <div class="speaker-name" *ngIf="speech.speaker">
         {{ speech.speaker.name }}
         <span *ngIf="speech.speaker.title" class="speaker-title">({{ speech.speaker.title }})</span>
@@ -22,10 +26,10 @@
   </div>
 
   <!-- Récursion pour afficher les sous-débats à n'importe quelle profondeur -->
-  <div *ngIf="debate.subDebates && debate.subDebates.length > 0" class="sub-debates">
+  <div *ngIf="debate.children && debate.children.length > 0" class="sub-debates">
     <app-debate-display
-      *ngFor="let subDebate of debate.subDebates"
-      [debate]="subDebate"
+      *ngFor="let childDebate of debate.children"
+      [debate]="childDebate"
     ></app-debate-display>
   </div>
 </div>

@@ -1,28 +1,26 @@
-import {Location} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {NgxTeleportModule} from 'ngx-teleport';
 import {Button} from 'primeng/button';
-import {Debate} from '../../../models/reports.model';
-import {ReportService} from '../../../services/report.service';
-import {CommonModule} from '@angular/common';
 import {DebateDisplayComponent} from '../../../components/debate-display/debate-display.component';
+import { Debate, SpeakerRole } from '../../../models/reports.model';
+import { ReportService } from '../../../services/report.service';
 
 @Component({
-  selector: 'app-entry',
-  standalone: true,
+  selector: 'app-report',
+  templateUrl: './report.page.html',
   imports: [
     NgxTeleportModule,
     Button,
-    CommonModule,
-    RouterLink,
-    DebateDisplayComponent
+    NgClass,
+    DebateDisplayComponent,
+    NgIf,
+    NgForOf
   ],
-  templateUrl: './report.page.html',
-  styleUrl: './report.page.scss'
+  styleUrls: ['./report.page.scss']
 })
 export class ReportPage implements OnInit {
-
   protected date?: Date;
   protected seanceId?: string;
   protected section?: string;
@@ -30,8 +28,8 @@ export class ReportPage implements OnInit {
   protected loading: boolean = false;
 
   constructor(
-    protected route: ActivatedRoute,
-    private reportService: ReportService,
+    private route: ActivatedRoute,
+    private reportService: ReportService
   ) {
     this.route.params.subscribe(params => {
       this.date = new Date(Date.parse(params["date"]));
@@ -43,27 +41,30 @@ export class ReportPage implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (this.seanceId && this.section) {
-      this.loading = true;
-      this.reportService.getReport(this.seanceId, this.section).subscribe({
-        next: (report: Debate | undefined) => {
-          this.debate = report;
-          console.log('Rapport chargé:', this.debate);
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error('Erreur lors du chargement du rapport:', err);
-          this.loading = false;
-        }
-      });
+      this.loadReport(this.seanceId, this.section);
+    } else {
+      console.error("Seance ID ou section manquante");
     }
   }
 
-  /**
-   * Détermine la classe CSS en fonction du rôle de l'orateur
-   */
-  getSpeakerClass(role: number): string {
-    return role === 1 ? 'president-speech' : 'regular-speech';
+  loadReport(seanceId: string, order: string) {
+    this.loading = true;
+    this.reportService.getReport(seanceId, order).subscribe({
+      next: (debate) => {
+        this.debate = debate;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement du rapport', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  getSpeakerClass(role: SpeakerRole | undefined): string {
+    if(!role) role = SpeakerRole.none;
+    return role === SpeakerRole.president ? 'president' : '';
   }
 }

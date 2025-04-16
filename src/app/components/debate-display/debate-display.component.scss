@@ -1,79 +1,118 @@
+:host {
+  display: block;
+}
+
 .debate {
-  margin: 1rem 0;
-  padding: 1rem;
+  margin-bottom: 1.5rem;
   border-left: 3px solid #ddd;
-  
-  // Styles spécifiques selon le niveau
+  padding-left: 1rem;
+
   &[data-level="1"] {
-    margin-left: 0;
-    border-left-color: #9b59b6;
+    border-left-color: #3f51b5;
   }
-  
+
   &[data-level="2"] {
-    margin-left: 1.5rem;
-    border-left-color: #3498db;
+    border-left-color: #4caf50;
   }
-  
+
   &[data-level="3"] {
-    margin-left: 2.5rem;
-    border-left-color: #2ecc71;
+    border-left-color: #ff9800;
   }
-  
-  &[data-level="4"] {
-    margin-left: 3.5rem;
-    border-left-color: #f39c12;
+
+  &[data-level="4"], &[data-level="5"], &[data-level="6"] {
+    border-left-color: #f44336;
   }
-  
-  &[data-level="5"] {
-    margin-left: 4.5rem;
-    border-left-color: #e74c3c;
+
+  &[data-type="implicit"] {
+    border-left-style: dashed;
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  &[data-type="main"] {
+    border-left-width: 4px;
+  }
+
+  &[data-type="separator"] {
+    border-left: none;
+    border-top: 2px dashed #ff9800;
+    border-bottom: 2px dashed #ff9800;
+    background-color: rgba(255, 152, 0, 0.05);
+    padding: 1rem;
+    margin: 2rem 0;
+    text-align: center;
+
+    .debate-header h3, .debate-header h4, .debate-header h5 {
+      color: #e65100;
+      font-style: italic;
+    }
+
+    &::before {
+      content: "⏱️";
+      display: inline-block;
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+    }
   }
 }
 
 .debate-header {
-  margin-bottom: 1rem;
-  
   h3, h4, h5 {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
   }
-  
+
   .debate-info {
     font-size: 0.8rem;
     color: #666;
+    margin-bottom: 1rem;
+
+    .debate-level, .debate-order, .debate-type {
+      margin-right: 1rem;
+    }
+
+    .debate-type {
+      font-style: italic;
+    }
   }
 }
 
-.speeches-container {
-  margin-bottom: 1rem;
+.sub-debates {
+  margin-top: 1rem;
 }
 
 .speech {
   margin-bottom: 1rem;
   padding: 0.75rem;
-  background-color: #f9f9f9;
+  background: #f5f5f5;
   border-radius: 4px;
-  
-  &.president-speech {
-    background-color: #e8f4ff;
-    border-left: 3px solid #3498db;
+
+  &.president {
+    background: #e3f2fd;
+  }
+
+  .speaker-name {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+
+    .speaker-title {
+      font-weight: normal;
+      font-style: italic;
+    }
+  }
+
+  .speech-text {
+    line-height: 1.5;
   }
 }
 
-.speaker-name {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  
-  .speaker-title {
-    font-weight: normal;
-    font-style: italic;
-    color: #666;
+.debate-tags {
+  margin-bottom: 1rem;
+
+  .tag {
+    background-color: #e0e0e0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    display: inline-block;
   }
-}
-
-.speech-text {
-  line-height: 1.5;
-}
-
-.sub-debates {
-  margin-top: 1rem;
 }
