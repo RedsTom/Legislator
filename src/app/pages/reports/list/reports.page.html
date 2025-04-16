@@ -1,4 +1,4 @@
-<ngx-teleport to="header">
+<ngx-teleport to="header" xmlns:p="http://www.w3.org/1999/html">
   <h1>Rapports</h1>
 </ngx-teleport>
 
@@ -13,13 +13,34 @@
             <p-card
               class="seance"
 
-              [header]="report.title"
               [subheader]="report.orders[0]"
               [styleClass]="'card'"
               [dt]="{
                 background: '{surface.100}'
               }"
             >
+              <ng-template #title>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>{{ report.title }}</span>
+                  @if (report.temporary) {
+                    <i class="pi pi-file-edit"
+                       style="margin-right: .5rem; color: var(--p-amber-500);"
+
+                       pTooltip="Ce rapport est encore en cours d'écriture et sera disponible dans sa version finale prochainement."
+                       tooltipPosition="top"
+                       [tooltipOptions]="{ positionTop: -8 }"
+                    ></i>
+                  } @else {
+                    <i class="pi pi-verified"
+                       style="margin-right: .5rem; color: var(--p-green-500);"
+
+                       pTooltip="Ce rapport est dans sa version finale"
+                       tooltipPosition="top"
+                       [tooltipOptions]="{ positionTop: -8 }"
+                    ></i>
+                  }
+                </div>
+              </ng-template>
               <p-timeline [value]="report.orders.slice(1)" align="left" styleClass="seance-timeline">
                 <ng-template #content let-order>
                   @if (order.includes("Suspension de séance")) {

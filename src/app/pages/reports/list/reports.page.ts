@@ -11,6 +11,7 @@ import {Divider} from 'primeng/divider';
 import {Paginator, PaginatorState} from 'primeng/paginator';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {Timeline} from 'primeng/timeline';
+import {Tooltip} from 'primeng/tooltip';
 import {BehaviorSubject, lastValueFrom, Observable, of, switchMap, tap} from 'rxjs';
 import {ReportSummary, ReportSummaryList} from '../../../models/reports.model';
 import {GroupByPipe} from '../../../pipes/group-by.pipe';
@@ -31,6 +32,7 @@ import 'dayjs/locale/fr.js';
     Divider,
     Timeline,
     NgxTeleportModule,
+    Tooltip,
   ],
   templateUrl: './reports.page.html',
   styleUrl: './reports.page.scss'
