@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {filter, map, Observable, of, tap} from 'rxjs';
+import {filter, map, Observable, of} from 'rxjs';
 import {Debate, DebateNode, DebateTree, Speaker, SpeakerRole, Speech} from '../models/reports.model';
 import {parseText} from "../utils/xml.utils";
 
@@ -225,18 +225,6 @@ export class ReportService {
 
     return currentParent;
   }
-
-  /**
-   * Trouve le parent racine d'un débat en remontant la chaîne de parents.
-   */
-  private findRootParent(debate: Debate): Debate {
-    let current = debate;
-    while (current.parent) {
-      current = current.parent;
-    }
-    return current;
-  }
-
   /**
    * Extrait les discours d'un élément.
    */

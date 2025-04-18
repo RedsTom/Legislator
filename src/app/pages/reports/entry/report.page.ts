@@ -1,4 +1,4 @@
-import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {NgIf} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {NgxTeleportModule} from 'ngx-teleport';
@@ -12,12 +12,10 @@ import {ReportService} from '../../../services/report.service';
   templateUrl: './report.page.html',
   imports: [
     NgxTeleportModule,
-    NgForOf,
     DebateDisplayComponent,
     NgIf,
     Button,
-    RouterLink,
-    NgClass
+    RouterLink
   ],
   styleUrls: ['./report.page.scss']
 })
