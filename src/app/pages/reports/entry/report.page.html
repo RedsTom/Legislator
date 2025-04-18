@@ -19,31 +19,8 @@
   </div>
 
   <div *ngIf="debate" class="report-container">
-    <!-- Métadonnées du débat -->
-    <div *ngIf="debate.node.metadata?.tags?.length" class="debate-tags">
-      <span *ngFor="let tag of debate.node.metadata?.tags" class="tag">{{ tag }}</span>
-    </div>
-
-    <!-- Affichage des discours principaux -->
-    <div *ngIf="debate.speeches && debate.speeches.length > 0" class="speeches-container">
-      <h2>Interventions principales</h2>
-      <div *ngFor="let speech of debate.speeches" class="speech" [ngClass]="getSpeakerClass(speech.speaker?.role)">
-        <div class="speaker-name" *ngIf="speech.speaker">
-          {{ speech.speaker.name }}
-          <span *ngIf="speech.speaker.title" class="speaker-title">({{ speech.speaker.title }})</span>
-        </div>
-        <div class="speech-text">{{ speech.text }}</div>
-      </div>
-    </div>
-
-    <!-- Affichage des sous-débats avec notre composant récursif -->
-    <div *ngIf="debate.children && debate.children.length > 0" class="sub-debates-container">
-      <h2>Débats et sous-débats</h2>
-
-      <app-debate-display
-        *ngFor="let childDebate of debate.children"
-        [debate]="childDebate"
-      ></app-debate-display>
-    </div>
+    @for (subdebate of debate.children; track $index) {
+      <app-debate-display [debate]="subdebate"/>
+    }
   </div>
 </div>

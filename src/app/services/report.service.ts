@@ -19,20 +19,14 @@ export class ReportService {
   }
 
   public getReport(seanceId: string, order: string): Observable<Debate | undefined> {
-    console.log("Fetching report for seanceId:", seanceId, "and order:", order);
-
     if (this.reportCache.has(seanceId) && this.reportCache.get(seanceId)?.getRootDebate(order)) {
       return of(this.reportCache.get(seanceId)?.getRootDebate(order));
     }
 
-    let start: DOMHighResTimeStamp | undefined, end: DOMHighResTimeStamp | undefined;
     const report = this.http.get(`@/dyn/opendata/${seanceId}.xml`, {
         responseType: "text"
       }).pipe(
-        tap(() => start = performance.now()),
         map((xml) => this.processReport(xml)),
-        tap(() => end = performance.now()),
-        tap(() => console.log(`Report processing time: ${(end ?? 0) - (start ?? 0)} ms`)),
       );
 
     report.subscribe((debateTree) => {
@@ -106,80 +100,9 @@ export class ReportService {
   private processPointElement(pointElement: Element, parentDebate: Debate, debateTree: DebateTree): void {
     const nivPoint = Number(pointElement.getAttribute("nivpoint") || "0");
     const valeurPtsOdj = pointElement.getAttribute("valeur_ptsodj") || "0";
-    const structure = pointElement.getAttribute("structure");
 
     // Déterminer le nom du débat
     let name: string = pointElement.querySelector(":scope > texte")?.textContent?.trim() ?? "";
-
-    // Cas spécial: niveau 99 = séparateur (suspension de séance)
-    if (nivPoint === 99) {
-      // Trouver la racine comme parent pour le séparateur
-      const rootParent = this.findRootParent(parentDebate);
-
-      // Sauvegarde du nom et de l'ordre du débat en cours pour la continuité
-      const parentName = rootParent.node.name;
-      const parentOrder = rootParent.node.order;
-
-      // Créer l'ID unique pour ce séparateur
-      const separatorId = `separator_${valeurPtsOdj}_${Date.now().toString(36)}`;
-
-      // Créer le nœud de débat pour le séparateur
-      const separatorNode: DebateNode = {
-        id: separatorId,
-        name: name || "Suspension de séance",
-        level: 0, // Niveau réel 0 au lieu de 99
-        order: valeurPtsOdj,
-        metadata: {
-          type: "separator",
-          structureType: structure || undefined,
-          tags: ["suspension"]
-        }
-      };
-
-      // Créer le débat séparateur
-      const separatorDebate: Debate = {
-        node: separatorNode,
-        speeches: this.extractSpeeches(pointElement),
-        children: [],
-        parent: rootParent
-      };
-
-      // Ajouter le séparateur directement à la racine
-      rootParent.children.push(separatorDebate);
-
-      // Créer un nouveau débat de continuité (niveau 0) après le séparateur
-      const continuationId = `continuation_${valeurPtsOdj}_${Date.now().toString(36)}`;
-
-      const continuationNode: DebateNode = {
-        id: continuationId,
-        name: `${parentName} (suite)`,
-        level: 0,
-        order: parentOrder,
-        metadata: {
-          type: "continuation",
-          tags: ["suite"]
-        }
-      };
-
-      const continuationDebate: Debate = {
-        node: continuationNode,
-        speeches: [],
-        children: [],
-        parent: rootParent
-      };
-
-      // Ajouter le débat de continuation après le séparateur
-      rootParent.children.push(continuationDebate);
-
-      // Traiter récursivement les sous-points si nécessaire
-      const subPoints = pointElement.querySelectorAll(":scope > point");
-      subPoints.forEach(subPoint => {
-        // Ajouter les sous-points au débat de continuation plutôt qu'au séparateur
-        this.processPointElement(subPoint, continuationDebate, debateTree);
-      });
-
-      return; // Sortir de la fonction après avoir traité le séparateur et la continuation
-    }
 
     // Déterminer le bon parent pour ce point
     let actualParent = parentDebate;
@@ -227,9 +150,6 @@ export class ReportService {
       name,
       level: nivPoint,
       order: valeurPtsOdj,
-      metadata: {
-        structureType: structure || undefined
-      }
     };
 
     // Créer le débat

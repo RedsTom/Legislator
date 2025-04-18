@@ -1,16 +1,12 @@
-import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {Component, Input} from '@angular/core';
-import {MarkdownComponent} from 'ngx-markdown';
 import {Debate, SpeakerRole} from '../../models/reports.model';
+import {SpeechDisplayComponent} from '../speech-display/speech-display.component';
 
 @Component({
   selector: 'app-debate-display',
   templateUrl: './debate-display.component.html',
   imports: [
-    NgClass,
-    MarkdownComponent,
-    NgIf,
-    NgForOf
+    SpeechDisplayComponent
   ],
   styleUrls: ['./debate-display.component.scss']
 })

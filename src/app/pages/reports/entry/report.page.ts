@@ -1,22 +1,23 @@
 import {NgClass, NgForOf, NgIf} from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {NgxTeleportModule} from 'ngx-teleport';
 import {Button} from 'primeng/button';
 import {DebateDisplayComponent} from '../../../components/debate-display/debate-display.component';
-import { Debate, SpeakerRole } from '../../../models/reports.model';
-import { ReportService } from '../../../services/report.service';
+import {Debate, SpeakerRole} from '../../../models/reports.model';
+import {ReportService} from '../../../services/report.service';
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.page.html',
   imports: [
     NgxTeleportModule,
-    Button,
-    NgClass,
+    NgForOf,
     DebateDisplayComponent,
     NgIf,
-    NgForOf
+    Button,
+    RouterLink,
+    NgClass
   ],
   styleUrls: ['./report.page.scss']
 })
