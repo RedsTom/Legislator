@@ -61,7 +61,7 @@ export class ResultDisplayComponent implements OnInit {
       labels: ['Pour', 'Non exprimés', 'Contre'],
       datasets: [
         {
-          data: [this.result.for, this.result.expressed - this.result.voting, this.result.against],
+          data: [this.result.for, this.result.voting - this.result.expressed, this.result.against],
           backgroundColor: [$dt('green.500').value, $dt('slate.500').value, $dt('red.500').value],
           hoverBackgroundColor: [$dt('green.700').value, $dt('slate.700').value, $dt('red.700').value]
         }
