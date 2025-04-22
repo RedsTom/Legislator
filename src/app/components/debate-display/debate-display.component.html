@@ -15,7 +15,7 @@
 
     <div class="debate-speeches">
         @for (speech of debate.speeches; track $index) {
-            <app-speech-display
+            <speech-display
                     [speech]="speech"
             />
         }
@@ -23,7 +23,7 @@
 
     <div class="debate-subdebates">
         @for (subdebate of debate.children; track $index) {
-            <app-debate-display
+            <debate-display
                     [debate]="subdebate"
             />
         }

@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 1rem;
+
+  margin: 1rem 0;
+  padding: 1rem;
+
+  background: var(--p-surface-200);
+
+  border: 2px solid var(--p-surface-300);
+  border-radius: var(--p-border-radius);
+
+  &:has([data-adopted=true]) {
+    background: var(--p-green-200);
+    border-color: var(--p-green-300);
+  }
+  &:has([data-adopted=false]) {
+    background: var(--p-red-200);
+    border-color: var(--p-red-300);
+  }
+}
+
+#data {
+  width: 100%;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tag {
+  width: fit-content;
+}

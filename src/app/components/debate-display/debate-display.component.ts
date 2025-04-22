@@ -3,7 +3,7 @@ import {Debate, SpeakerRole} from '../../models/reports.model';
 import {SpeechDisplayComponent} from '../speech-display/speech-display.component';
 
 @Component({
-  selector: 'app-debate-display',
+  selector: 'debate-display',
   templateUrl: './debate-display.component.html',
   imports: [
     SpeechDisplayComponent

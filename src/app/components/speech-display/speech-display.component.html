@@ -1,5 +1,13 @@
-<p>
+@if (speech.text.startsWith("Voici le résultat du scrutin")) {
+  <result-display
+    [result]="speech.text"
+  />
+} @else {
+  <p>
     <b>{{ speech.speaker.name }} <i>({{ speech.speaker.role }} ; {{ speech.speaker.title }})</i> :</b> <br/>
-    <span [innerHTML]="speech.text"></span>
-</p>
+    <markdown
+      [data]="speech.text"
+    />
+  </p>
+}
 

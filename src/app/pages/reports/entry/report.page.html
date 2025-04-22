@@ -10,17 +10,26 @@
 </ngx-teleport>
 
 <div id="content">
-  <div *ngIf="loading" class="loading">
-    Chargement du rapport...
-  </div>
+  @if (loading) {
+    <div *ngIf="loading" class="loading">
+      <p-progress-spinner/>
+    </div>
+  } @else if (!debate) {
+    <div class="error-message">
+      Impossible de charger le rapport demandé.
+      <p-button
+        outlined
 
-  <div *ngIf="!loading && !debate" class="error-message">
-    Impossible de charger le rapport demandé.
-  </div>
-
-  <div *ngIf="debate" class="report-container">
-    @for (subdebate of debate.children; track $index) {
-      <app-debate-display [debate]="subdebate"/>
-    }
-  </div>
+        icon="pi pi-refresh"
+        label="Réessayer"
+        (click)="reloadReport()"
+      />
+    </div>
+  } @else {
+    <div class="report-container">
+      @for (subdebate of debate.children; track $index) {
+        <debate-display [debate]="subdebate"/>
+      }
+    </div>
+  }
 </div>

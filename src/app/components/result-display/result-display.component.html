@@ -1,0 +1,49 @@
+<input type="hidden" [attr.data-adopted]="isAdopted"/>
+
+<h2>
+  Résultat du scrutin :
+
+  <div class="tag">
+    @switch (isAdopted) {
+      @case (true) {
+        <p-message
+          severity="success"
+          icon="pi pi-check"
+          text="Adopté"
+        />
+      }
+      @case (false) {
+        <p-message
+          severity="error"
+          icon="pi pi-times"
+          text="Rejeté"
+        />
+      }
+    }
+  </div>
+</h2>
+
+<div id="data">
+  <p-table [value]="resultEntries">
+    <ng-template #body let-result>
+      <tr>
+        <td>{{ $any(titles)[result[0]] }}</td>
+        <td>{{ result[1] ?? "Inconnu" }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-chart
+    type="doughnut"
+    height="100%"
+    [data]="chartData"
+    [options]="{
+      circumference: 180,
+      rotation: 270,
+      cutout: '85%',
+      legend: {
+        position: 'bottom',
+      }
+    }"
+  />
+</div>

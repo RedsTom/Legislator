@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {NgxTeleportModule} from 'ngx-teleport';
 import {Button} from 'primeng/button';
+import {ProgressSpinner} from 'primeng/progressspinner';
 import {DebateDisplayComponent} from '../../../components/debate-display/debate-display.component';
 import {Debate, SpeakerRole} from '../../../models/reports.model';
 import {ReportService} from '../../../services/report.service';
@@ -15,7 +16,9 @@ import {ReportService} from '../../../services/report.service';
     DebateDisplayComponent,
     NgIf,
     Button,
-    RouterLink
+    RouterLink,
+    ProgressSpinner,
+    ProgressSpinner
   ],
   styleUrls: ['./report.page.scss']
 })
@@ -41,11 +44,16 @@ export class ReportPage implements OnInit {
   }
 
   ngOnInit() {
+    this.reloadReport()
+  }
+
+  protected reloadReport() {
     if (this.seanceId && this.section) {
       this.loadReport(this.seanceId, this.section);
     } else {
       console.error("Seance ID ou section manquante");
     }
+
   }
 
   loadReport(seanceId: string, order: string) {
@@ -63,7 +71,7 @@ export class ReportPage implements OnInit {
   }
 
   getSpeakerClass(role: SpeakerRole | undefined): string {
-    if(!role) role = SpeakerRole.none;
+    if (!role) role = SpeakerRole.none;
     return role === SpeakerRole.president ? 'president' : '';
   }
 }
