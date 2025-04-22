@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@primeng/themes": "^19.0.10",
+    "chart.js": "^4.4.9",
     "chrono-node": "^2.8.0",
     "dayjs": "^1.11.13",
     "marked": "^15.0.0",
