@@ -1,0 +1,30 @@
+.message {
+  padding: 1rem;
+}
+
+.speaker {
+  font-size: 1rem;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.message-content {
+  display: flex;
+  align-items: center;
+
+  background: var(--p-primary-500);
+  color: var(--p-primary-50);
+
+  width: fit-content;
+  padding: .25rem 1rem;
+
+  border-radius: 1rem;
+
+  &:last-child {
+    border-radius: 1rem 1rem 1rem 0;
+  }
+}

@@ -3,11 +3,20 @@
     [result]="speech.text"
   />
 } @else {
-  <p>
-    <b>{{ speech.speaker.name }} <i>({{ speech.speaker.role }} ; {{ speech.speaker.title }})</i> :</b> <br/>
-    <markdown
-      [data]="speech.text"
-    />
-  </p>
+  <div class="message">
+    <span class="speaker">
+      {{ speech.speaker.name }}
+      <i>({{ speech.speaker.role }} ; {{ speech.speaker.title }})</i> :
+    </span>
+    <div class="messages">
+      @for (paragraph of speech.text.split("\n\n"); track $index) {
+        <p class="message-content">
+          <markdown
+            [data]="paragraph"
+          />
+        </p>
+      }
+    </div>
+  </div>
 }
 
