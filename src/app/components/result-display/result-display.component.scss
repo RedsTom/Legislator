@@ -46,3 +46,7 @@ h2 {
 .tag {
   width: fit-content;
 }
+
+::ng-deep .p-message > * :nth-child(3) {
+  display: none;
+}
