@@ -1,9 +1,10 @@
 import {Component, Input} from '@angular/core';
 import {MarkdownComponent} from 'ngx-markdown';
 import {Avatar} from 'primeng/avatar';
-import {MapperPipe} from 'primeng/password';
 import {Tag} from 'primeng/tag';
+import {Tooltip} from 'primeng/tooltip';
 import {Speech} from "../../models/reports.model";
+import {CapitalizePipe} from '../../pipes/capitalize.pipe';
 import {ResultDisplayComponent} from '../result-display/result-display.component';
 
 @Component({
@@ -12,8 +13,9 @@ import {ResultDisplayComponent} from '../result-display/result-display.component
     MarkdownComponent,
     ResultDisplayComponent,
     Avatar,
-    MapperPipe,
-    Tag
+    Tag,
+    Tooltip,
+    CapitalizePipe
   ],
   templateUrl: './speech-display.component.html',
   styleUrl: './speech-display.component.scss'
@@ -38,10 +40,6 @@ export class SpeechDisplayComponent {
       .map(paragraph => paragraph.trim())
       .map(paragraph => paragraph.replace(/(?:^[\s\u00a0]+)|(?:[\s\u00a0]+$)/g, ''))
       .map(paragraph => paragraph.replace('&nbsp;', ''))
-      .filter(paragraph => !!paragraph)
-      .map(par => {
-        console.log(par)
-        return par;
-      });
+      .filter(paragraph => !!paragraph);
   }
 }

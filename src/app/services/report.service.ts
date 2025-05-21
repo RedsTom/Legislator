@@ -198,30 +198,30 @@ export class ReportService {
   private createMissingLevels(parent: Debate, targetLevel: number): Debate {
     let currentParent = parent;
     let currentLevel = parent.node.level;
-
-    while (currentLevel < targetLevel) {
-      currentLevel++;
-
-      const debateNode: DebateNode = {
-        id: `implicit_${parent.node.order}_${currentLevel}_${Date.now().toString(36)}`,
-        name: `Section implicite ${currentLevel}`,
-        level: currentLevel,
-        order: parent.node.order,
-        metadata: {
-          type: "implicit"
-        }
-      };
-
-      const implicitDebate: Debate = {
-        node: debateNode,
-        speeches: [],
-        children: [],
-        parent: currentParent
-      };
-
-      currentParent.children.push(implicitDebate);
-      currentParent = implicitDebate;
-    }
+    //
+    // while (currentLevel < targetLevel) {
+    //   currentLevel++;
+    //
+    //   const debateNode: DebateNode = {
+    //     id: `implicit_${parent.node.order}_${currentLevel}_${Date.now().toString(36)}`,
+    //     name: `Section implicite ${currentLevel}`,
+    //     level: currentLevel,
+    //     order: parent.node.order,
+    //     metadata: {
+    //       type: "implicit"
+    //     }
+    //   };
+    //
+    //   const implicitDebate: Debate = {
+    //     node: debateNode,
+    //     speeches: [],
+    //     children: [],
+    //     parent: currentParent
+    //   };
+    //
+    //   currentParent.children.push(implicitDebate);
+    //   currentParent = implicitDebate;
+    // }
 
     return currentParent;
   }

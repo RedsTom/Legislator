@@ -8,16 +8,34 @@
             @if (speech.speaker.name.includes("président")) {
                 <p-avatar shape="circle" label="👑"/>
             } @else if (!speech.speaker.name.startsWith('M.')
-            && !speech.speaker.name.startsWith('Mme')) {
-                <p-avatar shape="circle" label="?" />
+                            && !speech.speaker.name.startsWith('Mme')) {
+                <p-avatar shape="circle" label="?"/>
             } @else {
                 <p-avatar shape="circle" [label]="initials"/>
             }
             {{ speech.speaker.name }}
-            <!-- FIXME: Ajout du réel groupe parlementaire -->
-            <p-tag severity="info" value="UNK" />
 
-            <i style="font-size: .5rem">({{ speech.speaker.role }} ; {{ speech.speaker.title }})</i> :
+            <div class="tags">
+                    <!-- FIXME: Ajout du réel groupe parlementaire -->
+                    <p-tag severity="info" value="UNK" class="group-tag"/>
+
+                @if (speech.speaker.role && speech.speaker.role !== 'none') {
+                    <p-tag
+                            severity="success"
+                            [value]="speech.speaker.role | capitalize"
+                            [pTooltip]="speech.speaker.role"
+                            styleClass="speaker-role"
+                    />
+                }
+                @if (speech.speaker.title) {
+                    <p-tag
+                            severity="success"
+                            [value]="speech.speaker.title | capitalize"
+                            [pTooltip]="speech.speaker.title"
+                            styleClass="speaker-title"
+                    />
+                }
+            </div>
         </span>
         <div class="messages">
             @for (paragraph of paragraphs; track $index) {
