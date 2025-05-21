@@ -4,6 +4,8 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {NgxTeleportModule} from 'ngx-teleport';
 import {Button} from 'primeng/button';
 import {ProgressSpinner} from 'primeng/progressspinner';
+import {ScrollTop} from 'primeng/scrolltop';
+import {Tag} from 'primeng/tag';
 import {DebateDisplayComponent} from '../../../components/debate-display/debate-display.component';
 import {Debate, SpeakerRole} from '../../../models/reports.model';
 import {ReportService} from '../../../services/report.service';
@@ -18,7 +20,9 @@ import {ReportService} from '../../../services/report.service';
     Button,
     RouterLink,
     ProgressSpinner,
-    ProgressSpinner
+    ProgressSpinner,
+    ScrollTop,
+    Tag
   ],
   styleUrls: ['./report.page.scss']
 })

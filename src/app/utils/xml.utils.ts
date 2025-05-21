@@ -1,12 +1,12 @@
 export function parseText(xml: string): string {
   return xml
-    .replace(/<italique.*?>/g, "*")
-    .replace(/<\/italique.*?>/g, "*")
-    .replace(/<gras.*?>/g, "**")
-    .replace(/<\/gras.*?>/g, "**")
-    .replace(/<exposant.*?>/g, "<sup>")
-    .replace(/<\/exposant.*?>/g, "</sup>")
-    .replace(/<br.*?\/>/g, "\n\n")
-    .replace(/<lienAdt[^>]*.*?>/g, "[")
-    .replace(/<\/lienAdt.*?>/g, "]");
+    .replaceAll(/<italique.*?>/g, "<i>")
+    .replaceAll(/<\/italique.*?>/g, "</i>")
+    .replaceAll(/<gras.*?>/g, "<b>")
+    .replaceAll(/<\/gras.*?>/g, "</b>")
+    .replaceAll(/<exposant.*?>/g, "<sup>")
+    .replaceAll(/<\/exposant.*?>/g, "</sup>")
+    .replaceAll(/<(\/|).*?br.*?(\/|)>/g, "\n")
+    .replaceAll(/<lienAdt[^>]*.*?>/g, "[")
+    .replaceAll(/<\/lienAdt.*?>/g, "]");
 }

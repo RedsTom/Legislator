@@ -1,22 +1,33 @@
 @if (speech.text.startsWith("Voici le résultat du scrutin")) {
-  <result-display
-    [result]="speech.text"
-  />
+    <result-display
+            [result]="speech.text"
+    />
 } @else {
-  <div class="message">
-    <span class="speaker">
-      {{ speech.speaker.name }}
-      <i>({{ speech.speaker.role }} ; {{ speech.speaker.title }})</i> :
-    </span>
-    <div class="messages">
-      @for (paragraph of speech.text.split("\n\n"); track $index) {
-        <p class="message-content">
-          <markdown
-            [data]="paragraph"
-          />
-        </p>
-      }
+    <div class="message">
+        <span class="speaker">
+            @if (speech.speaker.name.includes("président")) {
+                <p-avatar shape="circle" label="👑"/>
+            } @else if (!speech.speaker.name.startsWith('M.')
+            && !speech.speaker.name.startsWith('Mme')) {
+                <p-avatar shape="circle" label="?" />
+            } @else {
+                <p-avatar shape="circle" [label]="initials"/>
+            }
+            {{ speech.speaker.name }}
+            <!-- FIXME: Ajout du réel groupe parlementaire -->
+            <p-tag severity="info" value="UNK" />
+
+            <i style="font-size: .5rem">({{ speech.speaker.role }} ; {{ speech.speaker.title }})</i> :
+        </span>
+        <div class="messages">
+            @for (paragraph of paragraphs; track $index) {
+                <p class="message-content">
+                    <markdown
+                            [data]="paragraph.trim()"
+                    />
+                </p>
+            }
+        </div>
     </div>
-  </div>
 }
 
